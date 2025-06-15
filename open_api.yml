@@ -1,0 +1,1432 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/users/login": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Login User",
+        "operationId": "login_user_users_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SUserLogin"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Add User",
+        "operationId": "add_user_users__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SUserAdd"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User",
+        "operationId": "get_user_users__user_id__get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SUser"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete User",
+        "operationId": "delete_user_users__user_id__delete",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "User Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pages/": {
+      "get": {
+        "tags": [
+          "Pages"
+        ],
+        "summary": "Index",
+        "operationId": "index_pages__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouses/": {
+      "get": {
+        "tags": [
+          "Warehouses"
+        ],
+        "summary": "Get Warehouses",
+        "operationId": "get_warehouses_warehouses__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SWarehouse"
+                  },
+                  "type": "array",
+                  "title": "Response Get Warehouses Warehouses  Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Warehouses"
+        ],
+        "summary": "Create Warehouses",
+        "operationId": "create_warehouses_warehouses__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SWarehouseAdd"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouses/{warehouses_id}": {
+      "get": {
+        "tags": [
+          "Warehouses"
+        ],
+        "summary": "Get Current Warehouses",
+        "operationId": "get_current_warehouses_warehouses__warehouses_id__get",
+        "parameters": [
+          {
+            "name": "warehouses_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Warehouses Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/SWarehouse"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Get Current Warehouses Warehouses  Warehouses Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Warehouses"
+        ],
+        "summary": "Delete Current Warehouses",
+        "operationId": "delete_current_warehouses_warehouses__warehouses_id__delete",
+        "parameters": [
+          {
+            "name": "warehouses_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Warehouses Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medicine/": {
+      "get": {
+        "tags": [
+          "Medicine"
+        ],
+        "summary": "Get Medicines",
+        "operationId": "get_medicines_medicine__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SMedicine"
+                  },
+                  "type": "array",
+                  "title": "Response Get Medicines Medicine  Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Medicine"
+        ],
+        "summary": "Create Medicine",
+        "operationId": "create_medicine_medicine__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SMedicineAdd"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medicine/{medicine_id}": {
+      "get": {
+        "tags": [
+          "Medicine"
+        ],
+        "summary": "Get Current Medicine",
+        "operationId": "get_current_medicine_medicine__medicine_id__get",
+        "parameters": [
+          {
+            "name": "medicine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Medicine Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/SMedicine"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Get Current Medicine Medicine  Medicine Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Medicine"
+        ],
+        "summary": "Delete Current Medicine",
+        "operationId": "delete_current_medicine_medicine__medicine_id__delete",
+        "parameters": [
+          {
+            "name": "medicine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Medicine Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse_medicine/": {
+      "get": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Get Wm",
+        "operationId": "get_wm_warehouse_medicine__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SWarehouseMedicine"
+                  },
+                  "type": "array",
+                  "title": "Response Get Wm Warehouse Medicine  Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Create Wm",
+        "operationId": "create_wm_warehouse_medicine__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SWarehouseMedicineAdd"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse_medicine/check": {
+      "get": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Ckeck Wm",
+        "operationId": "ckeck_wm_warehouse_medicine_check_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse_medicine/{wm_id}": {
+      "get": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Get Current Wm",
+        "operationId": "get_current_wm_warehouse_medicine__wm_id__get",
+        "parameters": [
+          {
+            "name": "wm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Wm Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/SWarehouseMedicine"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Response Get Current Wm Warehouse Medicine  Wm Id  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Delete Current Wm",
+        "operationId": "delete_current_wm_warehouse_medicine__wm_id__delete",
+        "parameters": [
+          {
+            "name": "wm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Wm Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse_medicine/total/{medicine_id}": {
+      "get": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Get Total Quantity",
+        "operationId": "get_total_quantity_warehouse_medicine_total__medicine_id__get",
+        "parameters": [
+          {
+            "name": "medicine_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Medicine Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse_medicine/full_info/{wm_id}": {
+      "get": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Get Full Info Wm",
+        "operationId": "get_full_info_wm_warehouse_medicine_full_info__wm_id__get",
+        "parameters": [
+          {
+            "name": "wm_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Wm Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/warehouse_medicine/transfer": {
+      "post": {
+        "tags": [
+          "WarehouseMedicine"
+        ],
+        "summary": "Transfer Medicine",
+        "operationId": "transfer_medicine_warehouse_medicine_transfer_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/": {
+      "post": {
+        "tags": [
+          "Core"
+        ],
+        "summary": "Write Off",
+        "operationId": "write_off_core__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SWriteOff"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/core/stock-report": {
+      "get": {
+        "tags": [
+          "Core"
+        ],
+        "summary": "Get Stock Report",
+        "description": "Возвращает отчет о необходимости заказа лекарств по всем складам.\n\nArgs:\n    session: Асинхронная сессия SQLAlchemy\n\nReturns:\n    StockReport: Отчет с данными по складам и лекарствам",
+        "operationId": "get_stock_report_core_stock_report_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/med_issuance": {
+      "post": {
+        "tags": [
+          "MedicineIssuance"
+        ],
+        "summary": "Create Med Issuance",
+        "operationId": "create_med_issuance_med_issuance_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SMedicineIssuance"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/med_issuance{med_issuance_id}": {
+      "get": {
+        "tags": [
+          "MedicineIssuance"
+        ],
+        "summary": "Get Med Issuance",
+        "operationId": "get_med_issuance_med_issuance_med_issuance_id__get",
+        "parameters": [
+          {
+            "name": "med_issuance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Med Issuance Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SMedicineIssuance"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/med_issuancestatus/{med_issuance_id}": {
+      "post": {
+        "tags": [
+          "MedicineIssuance"
+        ],
+        "summary": "Change Status Med Issuance",
+        "operationId": "change_status_med_issuance_med_issuancestatus__med_issuance_id__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SMedicineIssuanceStatus"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MedicineStock": {
+        "properties": {
+          "medicine_name": {
+            "type": "string",
+            "title": "Medicine Name"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "order_status": {
+            "$ref": "#/components/schemas/OrderStatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "medicine_name",
+          "quantity",
+          "order_status"
+        ],
+        "title": "MedicineStock"
+      },
+      "OrderStatus": {
+        "type": "string",
+        "enum": [
+          "sufficient",
+          "needs_order",
+          "urgent"
+        ],
+        "title": "OrderStatus"
+      },
+      "SMedicine": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "expiration_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Expiration Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description",
+          "expiration_date"
+        ],
+        "title": "SMedicine"
+      },
+      "SMedicineAdd": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "expiration_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Expiration Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "expiration_date"
+        ],
+        "title": "SMedicineAdd"
+      },
+      "SMedicineIssuance": {
+        "properties": {
+          "wm_id": {
+            "type": "integer",
+            "title": "Wm Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "issuance_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Issuance Date"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ],
+            "title": "Status",
+            "default": "pending"
+          }
+        },
+        "type": "object",
+        "required": [
+          "wm_id",
+          "quantity",
+          "issuance_date"
+        ],
+        "title": "SMedicineIssuance"
+      },
+      "SMedicineIssuanceStatus": {
+        "properties": {
+          "med_issuance_id": {
+            "type": "integer",
+            "title": "Med Issuance Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "med_issuance_id",
+          "status"
+        ],
+        "title": "SMedicineIssuanceStatus"
+      },
+      "SUser": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "SUser"
+      },
+      "SUserAdd": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "title": "SUserAdd"
+      },
+      "SUserLogin": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "SUserLogin"
+      },
+      "SWarehouse": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "address"
+        ],
+        "title": "SWarehouse"
+      },
+      "SWarehouseAdd": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "address": {
+            "type": "string",
+            "title": "Address"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "address"
+        ],
+        "title": "SWarehouseAdd"
+      },
+      "SWarehouseMedicine": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "warehouses_id": {
+            "type": "integer",
+            "title": "Warehouses Id"
+          },
+          "medicines_id": {
+            "type": "integer",
+            "title": "Medicines Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "delivery_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Delivery Date"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "warehouses_id",
+          "medicines_id",
+          "quantity",
+          "delivery_date"
+        ],
+        "title": "SWarehouseMedicine"
+      },
+      "SWarehouseMedicineAdd": {
+        "properties": {
+          "warehouses_id": {
+            "type": "integer",
+            "title": "Warehouses Id"
+          },
+          "medicines_id": {
+            "type": "integer",
+            "title": "Medicines Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "warehouses_id",
+          "medicines_id",
+          "quantity"
+        ],
+        "title": "SWarehouseMedicineAdd"
+      },
+      "SWriteOff": {
+        "properties": {
+          "medicine_id": {
+            "type": "integer",
+            "title": "Medicine Id"
+          },
+          "warehouses_id": {
+            "type": "integer",
+            "title": "Warehouses Id"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "medicine_id",
+          "warehouses_id",
+          "reason"
+        ],
+        "title": "SWriteOff"
+      },
+      "StockReport": {
+        "properties": {
+          "warehouses": {
+            "items": {
+              "$ref": "#/components/schemas/WarehouseStockReport"
+            },
+            "type": "array",
+            "title": "Warehouses"
+          }
+        },
+        "type": "object",
+        "required": [
+          "warehouses"
+        ],
+        "title": "StockReport"
+      },
+      "TransferCreate": {
+        "properties": {
+          "medicine_id": {
+            "type": "integer",
+            "title": "Medicine Id"
+          },
+          "from_warehouse_id": {
+            "type": "integer",
+            "title": "From Warehouse Id"
+          },
+          "to_warehouse_id": {
+            "type": "integer",
+            "title": "To Warehouse Id"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "medicine_id",
+          "from_warehouse_id",
+          "to_warehouse_id",
+          "quantity"
+        ],
+        "title": "TransferCreate"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WarehouseStockReport": {
+        "properties": {
+          "warehouse_name": {
+            "type": "string",
+            "title": "Warehouse Name"
+          },
+          "warehouse_address": {
+            "type": "string",
+            "title": "Warehouse Address"
+          },
+          "medicines": {
+            "items": {
+              "$ref": "#/components/schemas/MedicineStock"
+            },
+            "type": "array",
+            "title": "Medicines"
+          }
+        },
+        "type": "object",
+        "required": [
+          "warehouse_name",
+          "warehouse_address",
+          "medicines"
+        ],
+        "title": "WarehouseStockReport"
+      }
+    }
+  }
+}

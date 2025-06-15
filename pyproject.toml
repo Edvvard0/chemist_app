@@ -1,0 +1,18 @@
+[project]
+name = "fastapi-template"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.12"
+dependencies = [
+    "aiosqlite>=0.21.0",
+    "alembic>=1.16.1",
+    "bcrypt>=4.3.0",
+    "celery>=5.5.2",
+    "fastapi[all]>=0.115.12",
+    "flower>=2.0.1",
+    "jose>=1.0.0",
+    "passlib>=1.7.4",
+    "python-jose>=3.4.0",
+    "redis>=6.2.0",
+    "sqlalchemy-utils>=0.41.2",
+]
