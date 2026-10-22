@@ -1,171 +1,150 @@
+<div align="center">
 
-# 📘 Документация API подсистемы «Аптека»
+# 💊 chemist_app
 
-## Введение
+**REST API подсистемы «Аптека»: склады, лекарства, списание, перемещение и отчёт о необходимости заказа**
 
-Подсистема **«Аптека»** реализована как часть FastAPI-приложения для управления лекарственными препаратами через мобильное приложение. Все взаимодействия с данными осуществляются через RESTful API, как указано в техническом задании (ТЗ).
+![Python](https://img.shields.io/badge/Python-3.12+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-2.0-D71F00?style=for-the-badge&logo=sqlalchemy&logoColor=white)
+![Celery](https://img.shields.io/badge/Celery-5.5-37814A?style=for-the-badge&logo=celery&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-Документация описывает реализованные эндпоинты, их соответствие требованиям ТЗ, а также дополнительные функции, добавленные разработчиком, такие как аутентификация пользователей и автоматизированная проверка просрочки.
+</div>
 
-## Требования ТЗ и их реализация
+---
 
-### 1. Список лекарственных препаратов и их наличие на складах
+## 📖 О проекте
 
-**Требование ТЗ:**
+Бэкенд подсистемы **«Аптека»** — часть FastAPI-приложения для управления лекарственными препаратами через мобильное приложение. Все операции доступны через REST API: учёт остатков по складам, поступления, списания (в том числе просроченных), перемещения между складами, заявки на выдачу и отчёт по необходимости заказа. Реализовано по техническому заданию, с дополнительной авторизацией пользователей.
 
-- Предоставить список лекарственных препаратов и их наличие на складах в удобном формате (например, таблице).
-- Поддержка фильтрации по складам.
-- Возможность отображения информации об одном препарате и его количестве на всех доступных складах.
+## ✨ Возможности
 
-**Реализованные эндпоинты:**
+| Задача из ТЗ | Что реализовано |
+|---|---|
+| Список лекарств и наличие на складах | каталог лекарств, записи «лекарство на складе», суммарное количество по всем складам |
+| Поступление от поставщиков | регистрация записи на складе; просроченные препараты отклоняются (`409`) |
+| Списание с причиной | списание позиции со склада с записью в таблицу списаний |
+| Заявки на выдачу | создание заявки, просмотр, смена статуса (`pending` / `accepted` / `rejected`) |
+| Перемещение между складами | проверка достаточности остатка, создание записи на целевом складе при необходимости |
+| Отчёт по необходимости заказа | по каждому складу и лекарству: `sufficient` (≥100), `needs_order`, `urgent` (<20) |
 
-| Эндпоинт | Метод | Описание | Примечания |
-|---------|--------|----------|------------|
-| `/medicine/` | GET | Возвращает список всех лекарственных препаратов. | Используется для получения каталога лекарств. |
-| `/warehouse_medicine/` | GET | Возвращает список записей о лекарствах на складах, включая количество. | Поддерживает фильтрацию по `warehouses_id` через query-параметры. |
-| `/warehouse_medicine/{wm_id}` | GET | Возвращает детальную информацию о конкретной записи лекарства на складе. | Включает количество на указанном складе. |
-| `/warehouse_medicine/total/{medicine_id}` | GET | Возвращает общее количество указанного лекарства на всех складах. | Упрощает получение суммарного количества. |
+Дополнительно:
 
-**Добавлено разработчиком:**
+- 🔐 авторизация по email/паролю: пароли хешируются (bcrypt), JWT выдаётся в `httponly`-cookie на 30 минут
+- ⏰ автосписание просроченных лекарств — эндпоинт `GET /warehouse_medicine/check` и периодическая задача Celery
+- 🧪 скрипт заполнения БД тестовыми данными
 
-- Эндпоинт `/warehouse_medicine/total/{medicine_id}` для быстрого подсчета общего количества лекарства.
-- Фильтрация по складам в `/warehouse_medicine/` реализована через query-параметры.
+## 🧱 Стек
 
-**Пример запроса:**
+| Технология | Роль |
+|---|---|
+| FastAPI + Uvicorn | REST API |
+| SQLAlchemy 2 (async) + aiosqlite | ORM, SQLite по умолчанию (`DB_URL`) |
+| Alembic | миграции (`app/migration`) |
+| Celery + Redis (+ Flower) | фоновые периодические задачи |
+| python-jose, passlib, bcrypt | JWT и хеширование паролей |
+| Pydantic Settings | конфигурация из `.env` |
+| Docker Compose | контейнер Redis |
+
+## 🗂 Структура проекта
+
+```text
+app/
+├── main.py                 # создание FastAPI-приложения, подключение роутеров
+├── config.py               # настройки из .env
+├── database.py             # async-движок и сессии
+├── dao/base.py             # базовый DAO
+├── users/                  # регистрация, логин, JWT
+├── medicines/              # справочник лекарств
+├── warehouses/             # склады
+├── warehouse_medicine/     # остатки на складах, перемещение, проверка просрочки
+├── medicine_issuance/      # заявки на выдачу
+├── core/                   # списание и отчёт по запасам
+├── tasks/                  # Celery: приложение и периодическая задача
+├── migration/              # окружение Alembic
+└── create_test_data.py     # тестовые данные
+open_api.yml                # выгрузка OpenAPI-схемы
+docker-compose.yml          # Redis
+```
+
+## 🚀 Быстрый старт
 
 ```bash
-curl -X GET "http://localhost:8000/warehouse_medicine/total/1"
+git clone https://github.com/Edvvard0/chemist_app.git
+cd chemist_app
+
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+
+# создайте .env (список переменных — ниже)
+
+docker compose up -d redis       # Redis для Celery
+
+# схема БД: каталога versions в репозитории нет, создайте ревизию самостоятельно
+alembic revision --autogenerate -m "init"
+alembic upgrade head
+
+python -m app.create_test_data   # (опционально) тестовые данные
+uvicorn app.main:app --reload
 ```
 
-**Пример ответа:**
+Документация API (Swagger UI): `http://localhost:8000/docs`.
 
-```json
-{
-  "medicine_id": 1,
-  "total_quantity": 300
-}
-```
-
-### 2. Поступление лекарственных препаратов от поставщиков
-
-**Требование ТЗ:**
-
-- Регистрация поступления лекарств от поставщиков с проверкой срока годности партии.
-
-**Реализованные эндпоинты:**
-
-| Эндпоинт | Метод | Описание | Примечания |
-|---------|--------|----------|------------|
-| `/warehouse_medicine/` | POST | Создает новую запись о лекарстве на складе. | Используется для регистрации поступления. |
-
-**Добавлено разработчиком:**
-
-- Валидация срока годности (`expiration_date`) из модели Medicine при создании записи в `WarehouseMedicineDAO`.
-- Логирование операций для отслеживания поступлений.
-
-**Пример запроса:**
+<details>
+<summary>Фоновая проверка просрочки (Celery)</summary>
 
 ```bash
-curl -X POST "http://localhost:8000/warehouse_medicine/" -H "Content-Type: application/json" -d '{"medicines_id": 1, "warehouses_id": 1, "quantity": 100, "delivery_date": "2025-06-01"}'
+celery -A app.tasks.celery:celery worker --loglevel=info
+celery -A app.tasks.celery:celery beat --loglevel=info
 ```
 
-### 3. Списание лекарственных препаратов
+Расписание задано в `app/tasks/celery.py` (сейчас `crontab(minute="*/1")`, в комментарии указано «ежедневно в 00:00»). Брокер — `redis://localhost`.
 
-**Требование ТЗ:**
+</details>
 
-- Списание лекарств с указанием причины по каждой позиции.
+## ⚙️ Конфигурация
 
-**Реализованные эндпоинты:**
+Файл `.env` в корне проекта (`app/config.py`):
 
-| Эндпоинт | Метод | Описание | Примечания |
-|---------|--------|----------|------------|
-| `/core/` | POST | Списывает лекарство с указанного склада, создавая запись в `writeoffmeds`. | Требует указания причины списания. |
+| Переменная | Назначение |
+|---|---|
+| `API_HOST`, `API_PORT` | хост и порт сервера |
+| `DB_URL` | URL БД (необязательно; по умолчанию SQLite `data/db.sqlite3`) |
+| `SECRET_KEY` | ключ подписи JWT |
+| `ALGORITHM` | алгоритм подписи JWT |
+| `REDIS_PASSWORD` | пароль Redis (docker-compose) |
+| `REDIS_USER`, `REDIS_USER_PASSWORD` | пользователь Redis и его пароль (docker-compose) |
 
-**Добавлено разработчиком:**
+## 🔌 API
 
-- Автоматическое списание всего количества лекарства с удалением записи из `warehouse_medicines`.
-- Фоновая задача с использованием Celery для ежедневной проверки и списания просроченных лекарств.
+<details open>
+<summary>Основные эндпоинты</summary>
 
-**Пример запроса:**
+| Группа | Эндпоинты |
+|---|---|
+| Users | `POST /users/login`, `POST /users/`, `GET /users/{user_id}`, `DELETE /users/{user_id}` |
+| Medicine | `GET /medicine/`, `POST /medicine/`, `GET /medicine/{medicine_id}`, `DELETE /medicine/{medicine_id}` |
+| Warehouses | `GET /warehouses/`, `POST /warehouses/`, `GET /warehouses/{warehouses_id}`, `DELETE /warehouses/{warehouses_id}` |
+| WarehouseMedicine | `GET /warehouse_medicine/`, `POST /warehouse_medicine/`, `GET /warehouse_medicine/{wm_id}`, `DELETE /warehouse_medicine/{wm_id}`, `GET /warehouse_medicine/total/{medicine_id}`, `GET /warehouse_medicine/full_info/{wm_id}`, `GET /warehouse_medicine/check`, `POST /warehouse_medicine/transfer` |
+| Core | `POST /core/` (списание), `GET /core/stock-report` (отчёт по запасам) |
+| MedicineIssuance | `POST /med_issuance`, `GET /med_issuance{med_issuance_id}`, `POST /med_issuancestatus/{med_issuance_id}` |
+
+</details>
+
+Примеры тел запросов:
 
 ```bash
-curl -X POST "http://localhost:8000/core/1/warehouses/1/write-off" -H "Content-Type: application/json" -d '{"reason": "Истек срок годности"}'
+# списание: POST /core/
+{"medicine_id": 1, "warehouses_id": 1, "reason": "Истек срок годности"}
+
+# перемещение: POST /warehouse_medicine/transfer
+{"medicine_id": 1, "from_warehouse_id": 1, "to_warehouse_id": 2, "quantity": 50}
 ```
 
-### 4. Список заявок на выдачу лекарственных препаратов
-
-**Требование ТЗ:**
-
-- Предоставить список заявок на выдачу лекарств для отделений.
-- Поддержка подробного просмотра заявки и фиксации отпуска.
-
-**Реализованные эндпоинты:**
-
-| Эндпоинт | Метод | Описание | Примечания |
-|---------|--------|----------|------------|
-| `/med_issuance` | POST | Создает новую заявку на выдачу лекарств. | Используется для регистрации запросов. |
-| `/med_issuance{med_issuance_id}` | GET | Возвращает детали конкретной заявки. | Поддерживает просмотр заявки. |
-| `/med_issuancestatus/{med_issuance_id}` | POST | Изменяет статус заявки (например, "принята", "отклонена"). | Используется для фиксации отпуска. |
-
-**Добавлено разработчиком:**
-
-- Статусы заявок: `pending`, `accepted`, `rejected`.
-- Логирование операций для аудита.
-
-**Пример запроса:**
-
-```bash
-curl -X POST "http://localhost:8000/med_issuance" -H "Content-Type: application/json" -d '{"wm_id": 1, "quantity": 10, "status": "pending"}'
-```
-
-### 5. Перемещение лекарственных препаратов между складами
-
-**Требование ТЗ:**
-
-- Реализовать перемещение лекарств между складами.
-
-**Реализованные эндпоинты:**
-
-| Эндпоинт | Метод | Описание | Примечания |
-|---------|--------|----------|------------|
-| `/warehouse_medicine/transfer` | POST | Перемещает указанное количество лекарства с одного склада на другой. | Проверяет наличие и достаточность количества. |
-
-**Добавлено разработчиком:**
-
-- Проверка на достаточность количества перед перемещением.
-- Создание новой записи в `warehouse_medicines`, если лекарство отсутствует на целевом складе.
-- Логирование операций перемещения.
-
-**Пример запроса:**
-
-```bash
-curl -X POST "http://localhost:8000/warehouse_medicine/transfer" -H "Content-Type: application/json" -d '{"medicine_id": 1, "from_warehouse_id": 1, "to_warehouse_id": 2, "quantity": 50}'
-```
-
-### 6. Отчет по необходимости заказа лекарственных препаратов
-
-**Требование ТЗ:**
-
-- Сформировать отчет по необходимости заказа лекарств.
-
-**Реализованные эндпоинты:**
-
-| Эндпоинт | Метод | Описание | Примечания |
-|---------|--------|----------|------------|
-| `/core/stock-report` | GET | Возвращает отчет по всем складам с информацией о лекарствах и срочности заказа. | Включает статусы: `sufficient`, `needs_order`, `urgent`. |
-
-**Добавлено разработчиком:**
-
-- Логика определения срочности на основе порогов количества (`≥100`, `<50`, `<20`).
-- Структурированный JSON-ответ.
-
-**Пример запроса:**
-
-```bash
-curl -X GET "http://localhost:8000/core/stock-report"
-```
-
-**Пример ответа:**
+Пример ответа `GET /core/stock-report`:
 
 ```json
 {
@@ -173,66 +152,16 @@ curl -X GET "http://localhost:8000/core/stock-report"
     {
       "warehouse_name": "Склад Москва",
       "warehouse_address": "Москва, ул. Ленина, 1",
-      "medicines": [
-        {
-          "medicine_name": "Аспирин",
-          "quantity": 100,
-          "order_status": "sufficient"
-        }
-      ]
-    },
-    {
-      "warehouse_name": "Склад Казань",
-      "warehouse_address": "Казань, ул. Кремлевская, 3",
-      "medicines": [
-        {
-          "medicine_name": "Ибупрофен",
-          "quantity": 15,
-          "order_status": "urgent"
-        }
-      ]
+      "medicines": [{"medicine_name": "Аспирин", "quantity": 100, "order_status": "sufficient"}]
     }
   ]
 }
 ```
 
-## Дополнительные функции, добавленные разработчиком
+## 🗺 Планы
 
-### Аутентификация пользователей
+В исходной документации отмечено: автосписание через Celery планируется как замена ручному эндпоинту проверки просрочки (`/warehouse_medicine/check`).
 
-**Эндпоинты:**
+## 👤 Автор
 
-- `POST /users/login` — Авторизация пользователя
-- `POST /users/` — Добавление нового пользователя
-- `GET /users/{user_id}` — Получение информации
-- `DELETE /users/{user_id}` — Удаление пользователя
-
-### Управление складами
-
-**Эндпоинты:**
-
-- `GET /warehouses/`
-- `POST /warehouses/`
-- `GET /warehouses/{warehouses_id}`
-- `DELETE /warehouses/{warehouses_id}`
-
-### Управление лекарствами
-
-**Эндпоинты:**
-
-- `GET /medicine/`
-- `POST /medicine/`
-- `GET /medicine/{medicine_id}`
-- `DELETE /medicine/{medicine_id}`
-
-### Автоматизированная проверка просрочки
-
-- Фоновая задача Celery + Redis запускается ежедневно в 00:00.
-- Автоматизирует списание просроченных препаратов.
-- Это пока планируется пока есть специальный эндпоинт, который проверяет товары на просрочку
-
-
-### Тестовые данные
-
-- Скрипт заполняет таблицы тестовыми данными.
-
+**Эдвард Осипчук** · GitHub [@Edvvard0](https://github.com/Edvvard0) · Telegram [@Edward0076](https://t.me/Edward0076)
